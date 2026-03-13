@@ -1,7 +1,105 @@
-import { lazy, Suspense, useCallback, useRef } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+// Symbols to scramble through — techy/geometric feel
+const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#<>[]{}/*\\|~";
+
+const ROLES = [
+  "Aspiring Web Developer",
+  "Full-Stack Developer",
+  "React & TypeScript Dev",
+  "Problem Solver",
+];
+
+type CharState = { char: string; settled: boolean };
+
+// Decode / scramble effect: each character randomises through symbols
+// before snapping to the real letter, left-to-right staggered.
+function ScrambleText() {
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [chars, setChars] = useState<CharState[]>([]);
+  const [started, setStarted] = useState(false);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearAll = () => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+  };
+
+  const scrambleTo = useCallback((target: string) => {
+    clearAll();
+
+    // Seed display with random chars at correct length
+    const result: CharState[] = target.split("").map((ch) =>
+      ch === " " ? { char: " ", settled: true } : { char: SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)], settled: false }
+    );
+    setChars([...result]);
+
+    target.split("").forEach((finalChar, i) => {
+      if (finalChar === " ") return;
+
+      // Each character starts after a staggered delay
+      const startDelay = i * 38;
+      const scrambleCycles = 4 + Math.floor(Math.random() * 3);
+      let cycle = 0;
+
+      const tick = () => {
+        cycle++;
+        if (cycle >= scrambleCycles) {
+          result[i] = { char: finalChar, settled: true };
+        } else {
+          result[i] = { char: SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)], settled: false };
+        }
+        setChars([...result]);
+        if (cycle < scrambleCycles) {
+          timers.current.push(setTimeout(tick, 55));
+        }
+      };
+
+      timers.current.push(setTimeout(tick, startDelay));
+    });
+
+    // Cycle to next role after display time
+    timers.current.push(
+      setTimeout(() => setRoleIndex((i) => (i + 1) % ROLES.length), 3600)
+    );
+  }, []);
+
+  // Delay first scramble until hero entrance has cleared
+  useEffect(() => {
+    const t = setTimeout(() => setStarted(true), 950);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (!started) return;
+    scrambleTo(ROLES[roleIndex]);
+    return clearAll;
+  }, [roleIndex, started, scrambleTo]);
+
+  return (
+    <span className="inline-flex items-center">
+      <span className="font-mono tracking-wide">
+        {chars.map((c, i) => (
+          <span
+            key={i}
+            className={c.settled ? "text-primary" : "text-primary/35"}
+          >
+            {c.char === " " ? "\u00A0" : c.char}
+          </span>
+        ))}
+      </span>
+      {/* Blinking geometric cursor */}
+      <motion.span
+        className="ml-[3px] inline-block h-[1em] w-[3px] rounded-[1px] bg-primary align-middle"
+        animate={{ opacity: [1, 0, 1] }}
+        transition={{ duration: 0.85, repeat: Infinity, ease: "linear" }}
+      />
+    </span>
+  );
+}
 
 const HeroThreeScene = lazy(() => import("./HeroThreeScene"));
 
@@ -35,14 +133,6 @@ const HeroSection = () => {
 
           {/* Text */}
           <div className="max-w-xl space-y-6">
-          <motion.div
-            className="inline-block rounded-full border border-border bg-secondary px-4 py-1.5 text-xs text-muted-foreground"
-            initial={{ opacity: 0, y: -16, filter: "blur(6px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.5, ease: EASE }}
-          >
-            🚀 Open to opportunities
-          </motion.div>
           <motion.h1
             className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold leading-tight"
             initial={{ opacity: 0, y: 52, filter: "blur(10px)" }}
@@ -57,7 +147,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.28, ease: EASE }}
           >
-            Aspiring Web Developer
+            <ScrambleText />
           </motion.p>
           <motion.p
             className="text-muted-foreground leading-relaxed max-w-lg"
