@@ -1,5 +1,0 @@
-// Re-export the base fixture from the package
-// Override or extend test/expect here if needed
-import { test, expect } from "@playwright/test";
-
-export { test, expect };

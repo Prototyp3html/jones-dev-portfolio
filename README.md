@@ -1,162 +1,85 @@
-# Jones Ivan Sevilla — Web Developer Portfolio
+# Jones Ivan Sevilla Portfolio
 
-A modern, animated developer portfolio built with React, Three.js, and Framer Motion.
+Personal portfolio site built with React, TypeScript, Vite, Framer Motion, and React Three Fiber.
 
-## ✨ Features
+## Stack
 
-- **3D Hero Animation**: Interactive parallax 3D scene with floating geometric shapes using React Three Fiber
-- **Smooth Scroll Animations**: Spring-based viewport animations for all sections using Framer Motion
-- **Interactive Hover Effects**: Smooth scale and shadow transitions on cards and UI elements
-- **Mouse Parallax**: Camera movement responds to mouse movement for a depth effect
-- **Responsive Design**: Fully responsive layout with Tailwind CSS
-- **Modern Tech Stack**: Built with Vite, TypeScript, and shadcn-ui components
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- React Three Fiber / Drei
+- React Router
 
-## 🚀 Getting Started
+## Features
 
-### Prerequisites
+- Animated hero section with 3D background
+- Responsive layout for desktop and mobile
+- Custom desktop-only cursor interaction
+- Contact form with FormSubmit email delivery and mailto fallback
+- Project showcase, skills, about, and contact sections
 
-- Node.js 18+ and npm
-- Git
-
-### Installation
+## Development
 
 ```bash
-# Clone the repository
-git clone <YOUR_GIT_URL>
-cd jones-dev-portfolio
-
-# Install dependencies
 npm install
-
-# Start the development server
 npm run dev
 ```
 
-Then open [http://localhost:5173](http://localhost:5173) in your browser.
+## Build
 
-## 🛠 Tech Stack
-
-- **Frontend Framework**: React 18.3+ with TypeScript
-- **3D Graphics**: React Three Fiber, Drei
-- **Animations**: Framer Motion
-- **Styling**: Tailwind CSS with custom theme
-- **UI Components**: shadcn-ui
-- **Build Tool**: Vite
-- **Forms**: React Hook Form with Zod validation
-- **Routing**: React Router v6
-
-## 📂 Project Structure
-
+```bash
+npm run build
+npm run preview
 ```
+
+## Lint
+
+```bash
+npm run lint
+```
+
+## Project Structure
+
+```text
 src/
-├── components/
-│   ├── HeroSection.tsx          # Main hero with 3D background
-│   ├── HeroThreeScene.tsx       # React Three Fiber scene
-│   ├── AboutSection.tsx
-│   ├── SkillsSection.tsx
-│   ├── ProjectsSection.tsx
-│   ├── ContactSection.tsx
-│   ├── Navbar.tsx
-│   ├── Footer.tsx
-│   └── ui/                      # shadcn/ui components
-├── lib/
-│   ├── motion.ts               # Framer Motion animation variants
-│   └── utils.ts               # Utility functions
-├── hooks/
-│   └── use-mobile.tsx
-├── pages/
-│   ├── Index.tsx
-│   └── NotFound.tsx
-└── App.tsx
+  components/
+    AboutSection.tsx
+    ContactSection.tsx
+    CustomCursor.tsx
+    Footer.tsx
+    HeroSection.tsx
+    HeroThreeScene.tsx
+    LoadingScreen.tsx
+    Navbar.tsx
+    ProjectsSection.tsx
+    SkillsSection.tsx
+  lib/
+    motion.ts
+  pages/
+    Index.tsx
+    NotFound.tsx
+  App.tsx
+  index.css
+  main.tsx
 ```
 
-## 🎨 Customization
+## Assets
 
-### Color Theme
+- Put your profile image in `public/profile.png`
 
-Colors are defined in Tailwind CSS variables. Edit `index.css` or the Tailwind config to change the theme.
+## Deployment
 
-### 3D Scene
+This project deploys directly to Vercel with these settings:
 
-The hero 3D scene objects and lighting can be customized in `src/components/HeroThreeScene.tsx`:
+- Framework Preset: Vite
+- Build Command: `npm run build`
+- Output Directory: `dist`
 
-- Modify `SHAPES` array to change object positions, sizes, and colors
-- Adjust `ambientLight`, `directionalLight`, and `pointLight` intensities for different lighting moods
-- Change camera position and FOV in the `Canvas` props
+## Contact
 
-### Animations
-
-Animation variants are centralized in `src/lib/motion.ts`. Adjust timing, easing, and spring properties:
-
-```typescript
-export const headingReveal: Variants = {
-  hidden: { opacity: 0, y: 48 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 72, damping: 18 },
-  },
-};
-```
-
-## 📦 Available Scripts
-
-```bash
-# Development
-npm run dev          # Start dev server
-npm run build        # Production build
-npm run preview      # Preview production build
-
-# Testing & Linting
-npm run test         # Run tests
-npm run test:watch   # Watch mode
-npm run lint         # Run ESLint
-```
-
-## 🌐 Deployment
-
-### Deploy with Vercel
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
-```
-
-### Deploy with Netlify
-
-```bash
-# Install Netlify CLI
-npm i -g netlify-cli
-
-# Deploy
-netlify deploy
-```
-
-### Deploy with GitHub Pages
-
-Update `vite.config.ts` with your repository name:
-
-```typescript
-export default defineConfig({
-  base: '/your-repo-name/',
-  // ...
-});
-```
-
-## 📧 Contact & Links
-
-- **Email**: jonesivan@example.com
-- **GitHub**: github.com/jonesivan
-- **LinkedIn**: linkedin.com/in/jonesivan
-
-## 📝 License
-
-This project is open source and available under the MIT License.
-
-## 🙏 Credits
-
-Built with passion using modern web technologies and best practices in web animation and design.
+- GitHub: https://github.com/Prototyp3html
+- LinkedIn: https://www.linkedin.com/in/jones-ivan-sevilla-a022333a6/
+- Email: sevilla.jsivn@gmail.com
 
