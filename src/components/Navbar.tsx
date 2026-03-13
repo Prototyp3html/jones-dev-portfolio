@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = ["About", "Skills", "Projects", "Contact"];
 
@@ -46,32 +47,46 @@ const Navbar = () => {
       </div>
 
       {/* Mobile dropdown */}
-      {open && (
-        <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl">
-          <ul className="container mx-auto flex flex-col px-6 py-4 gap-1">
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <ul className="container mx-auto flex flex-col px-6 py-4 gap-1">
             {navLinks.map((link) => (
               <li key={link}>
-                <a
+                <motion.a
                   href={`#${link.toLowerCase()}`}
                   onClick={close}
                   className="block rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.22 }}
                 >
                   {link}
-                </a>
+                </motion.a>
               </li>
             ))}
             <li className="pt-2">
-              <a
+              <motion.a
                 href="#contact"
                 onClick={close}
                 className="block rounded-lg bg-gradient-purple px-4 py-2.5 text-center text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.24, delay: 0.06 }}
               >
                 Get in Touch
-              </a>
+              </motion.a>
             </li>
-          </ul>
-        </div>
-      )}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

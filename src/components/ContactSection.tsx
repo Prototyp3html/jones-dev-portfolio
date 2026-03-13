@@ -12,6 +12,8 @@ import {
 
 const ContactSection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -19,10 +21,45 @@ const ContactSection = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder — integrate with backend later
-    console.log("Form submitted:", form);
+    setIsSubmitting(true);
+    setStatusMessage("");
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/sevilla.jsivn@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          _subject: `Portfolio Contact: ${form.name}`,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      setStatusMessage("Message sent successfully. Thanks for reaching out!");
+      setForm({ name: "", email: "", message: "" });
+    } catch {
+      const subject = encodeURIComponent(`Portfolio Contact: ${form.name}`);
+      const body = encodeURIComponent(
+        `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
+      );
+
+      window.location.href = `mailto:sevilla.jsivn@gmail.com?subject=${subject}&body=${body}`;
+      setStatusMessage(
+        "Automatic send failed, so your email app was opened with the message pre-filled."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -106,10 +143,14 @@ const ContactSection = () => {
             </div>
             <button
               type="submit"
+              disabled={isSubmitting}
               className="w-full rounded-lg bg-gradient-purple px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90 glow-purple"
             >
-              Send Message
+              {isSubmitting ? "Sending..." : "Send Message"}
             </button>
+            {statusMessage && (
+              <p className="text-sm text-muted-foreground">{statusMessage}</p>
+            )}
           </motion.form>
 
           {/* Socials */}
@@ -124,25 +165,29 @@ const ContactSection = () => {
             </p>
             <div className="space-y-4">
               <a
-                href="#"
+                href="https://github.com/Prototyp3html"
+                target="_blank"
+                rel="noreferrer"
                 className="flex items-center gap-3 text-muted-foreground transition-colors hover:text-foreground"
               >
                 <Github className="h-5 w-5" />
-                <span className="text-sm">github.com/jonesivan</span>
+                <span className="text-sm">github.com/Prototyp3html</span>
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/in/jones-ivan-sevilla-a022333a6/"
+                target="_blank"
+                rel="noreferrer"
                 className="flex items-center gap-3 text-muted-foreground transition-colors hover:text-foreground"
               >
                 <Linkedin className="h-5 w-5" />
-                <span className="text-sm">linkedin.com/in/jonesivan</span>
+                <span className="text-sm">linkedin.com/in/jones-ivan-sevilla-a022333a6</span>
               </a>
               <a
-                href="mailto:jonesivan@example.com"
+                href="mailto:sevilla.jsivn@gmail.com"
                 className="flex items-center gap-3 text-muted-foreground transition-colors hover:text-foreground"
               >
                 <Mail className="h-5 w-5" />
-                <span className="text-sm">jonesivan@example.com</span>
+                <span className="text-sm">sevilla.jsivn@gmail.com</span>
               </a>
             </div>
           </motion.div>

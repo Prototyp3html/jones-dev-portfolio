@@ -1,30 +1,39 @@
 import type { Variants } from "framer-motion";
 
 const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
-const SPRING = { type: "spring" as const, stiffness: 72, damping: 18 };
+const SPRING = { type: "spring" as const, stiffness: 80, damping: 17 };
+const EASE_SWIFT: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+export const liftHover = {
+  y: -8,
+  scale: 1.02,
+  transition: { type: "spring" as const, stiffness: 280, damping: 22 },
+};
 
 // Section wrapper — opacity only; no y-travel so it doesn't fight child animations
 export const sectionReveal: Variants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0, filter: "blur(6px)" },
   visible: {
     opacity: 1,
-    transition: { duration: 0.45, ease: EASE_OUT },
+    filter: "blur(0px)",
+    transition: { duration: 0.55, ease: EASE_SWIFT },
   },
 };
 
 // Bold spring slide-up for section headings
 export const headingReveal: Variants = {
-  hidden: { opacity: 0, y: 48 },
+  hidden: { opacity: 0, y: 56, filter: "blur(8px)" },
   visible: {
     opacity: 1,
     y: 0,
+    filter: "blur(0px)",
     transition: { ...SPRING },
   },
 };
 
 // Softer fade-up for subtitle paragraphs, delayed after heading
 export const subtitleReveal: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 24 },
   visible: {
     opacity: 1,
     y: 0,
@@ -45,11 +54,12 @@ export const staggerContainer = (stagger = 0.13, delayChildren = 0.32): Variants
 
 // Cards slide up further with scale + spring for punchy feel
 export const staggerItem: Variants = {
-  hidden: { opacity: 0, y: 52, scale: 0.92 },
+  hidden: { opacity: 0, y: 60, scale: 0.94, filter: "blur(6px)" },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
+    filter: "blur(0px)",
     transition: { ...SPRING },
   },
 };

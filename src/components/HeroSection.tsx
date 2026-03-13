@@ -20,7 +20,7 @@ const HeroSection = () => {
   }, []);
   return (
     <section
-      className="relative min-h-screen flex items-center pt-16 overflow-hidden"
+      className="relative flex min-h-screen items-center overflow-hidden pt-28 pb-14 sm:pt-32 sm:pb-16 lg:pt-20 lg:pb-0"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -31,26 +31,29 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-6">
-        <div className="max-w-2xl space-y-6">
+        <div className="flex flex-col-reverse items-center justify-between gap-12 lg:flex-row">
+
+          {/* Text */}
+          <div className="max-w-xl space-y-6">
           <motion.div
             className="inline-block rounded-full border border-border bg-secondary px-4 py-1.5 text-xs text-muted-foreground"
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: -16, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.5, ease: EASE }}
           >
             🚀 Open to opportunities
           </motion.div>
           <motion.h1
             className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold leading-tight"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 52, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.65, delay: 0.14, ease: EASE }}
           >
             Hi, I'm <span className="text-gradient">Jones Ivan Sevilla</span>
           </motion.h1>
           <motion.p
             className="text-xl text-primary font-medium font-display"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.28, ease: EASE }}
           >
@@ -72,19 +75,64 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.54, ease: EASE }}
           >
-            <a
+            <motion.a
               href="#projects"
               className="inline-flex items-center rounded-lg bg-gradient-purple px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90 glow-purple"
+              whileHover={{ y: -3, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 320, damping: 20 }}
             >
               View Projects
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="#contact"
               className="inline-flex items-center rounded-lg border border-border bg-secondary px-6 py-3 font-medium text-secondary-foreground transition-colors hover:bg-muted"
+              whileHover={{ y: -3, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 320, damping: 20 }}
             >
               Contact Me
-            </a>
+            </motion.a>
           </motion.div>
+          </div>
+
+          {/* Profile photo */}
+          <motion.div
+            className="relative mt-4 flex shrink-0 items-center justify-center sm:mt-6 lg:mt-0"
+            initial={{ opacity: 0, scale: 0.88, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: 0.2, ease: EASE }}
+          >
+            {/* Decorative rotating ring */}
+            <motion.div
+              className="absolute h-[280px] w-[280px] sm:h-[320px] sm:w-[320px] rounded-full border border-primary/20"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+            >
+              {/* Dot on the ring */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full bg-primary/60 shadow-[0_0_8px_hsl(var(--primary)/0.7)]" />
+            </motion.div>
+
+            {/* Outer glow */}
+            <div className="absolute h-[240px] w-[240px] sm:h-[280px] sm:w-[280px] rounded-full bg-primary/10 blur-2xl" />
+
+            {/* Photo frame */}
+            <div className="relative h-[220px] w-[220px] sm:h-[260px] sm:w-[260px] rounded-full overflow-hidden border-2 border-primary/40 shadow-[0_0_40px_hsl(var(--primary)/0.25)]">
+              <img
+                src="/profile.png"
+                alt="Jones Ivan Sevilla"
+                className="h-full w-full object-cover object-top"
+              />
+            </div>
+
+            {/* Bottom-right geometric accent */}
+            <div className="absolute bottom-4 right-0 flex flex-col gap-1.5 opacity-60">
+              <div className="h-[5px] w-[5px] rotate-45 rounded-[1px] border border-primary/70" />
+              <div className="h-[5px] w-[5px] rotate-45 rounded-[1px] border border-primary/50" />
+              <div className="h-[5px] w-[5px] rotate-45 rounded-[1px] border border-primary/30" />
+            </div>
+          </motion.div>
+
         </div>
       </div>
 

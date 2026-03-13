@@ -57,8 +57,8 @@ const AboutSection = () => {
           whileInView="visible"
           viewport={viewportOnce}
         >
-          A recently graduated IT professional eager to contribute to meaningful
-          projects and grow as a developer.
+          A 4th year IT student eager to contribute to meaningful projects and
+          grow as a developer.
         </motion.p>
 
         <motion.div

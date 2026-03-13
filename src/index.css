@@ -55,8 +55,20 @@
   * {
     @apply border-border;
   }
+  @media (pointer: fine) and (hover: hover) {
+    body.custom-cursor-enabled,
+    body.custom-cursor-enabled * {
+      cursor: none !important;
+    }
+  }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-background text-foreground font-body antialiased;
+  }
+  section[id] {
+    scroll-margin-top: 90px;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
